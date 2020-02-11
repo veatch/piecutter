@@ -22,6 +22,7 @@ setup(
             'piecutter = piecutter.__main__:main',
         ]
     },
+    python_requires='>=3.5',
     install_requires=requirements,
     extras_require=extras_require
 )
