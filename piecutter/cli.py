@@ -7,7 +7,7 @@ from piecutter.main import piecutter
 @click.argument(u'template')
 @click.option(
     u'--no-input', is_flag=True,
-    help=u'Do not prompt for parameters and only use cookiecutter.json '
+    help=u'Do not prompt for parameters and only use cookiecutter_config.py '
          u'file content',
 )
 @click.option(

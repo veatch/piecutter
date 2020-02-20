@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Cookiecutter repository functions."""
 
 from __future__ import unicode_literals
@@ -9,6 +7,8 @@ import re
 from cookiecutter.exceptions import RepositoryNotFound
 from cookiecutter.vcs import clone
 from cookiecutter.zipfile import unzip
+
+from piecutter import constants
 
 REPO_REGEX = re.compile(r"""
 # something like git:// ssh:// file:// etc.
@@ -47,8 +47,8 @@ def expand_abbreviations(template, abbreviations):
     return template
 
 
-def repository_has_cookiecutter_json(repo_directory):
-    """Determine if `repo_directory` contains a `cookiecutter.json` file.
+def repository_has_cookiecutter_config(repo_directory):
+    """Determine if `repo_directory` contains a `cookiecutter_config.py` file.
 
     :param repo_directory: The candidate repository directory.
     :return: True if the `repo_directory` is valid, else False.
@@ -56,7 +56,7 @@ def repository_has_cookiecutter_json(repo_directory):
     repo_directory_exists = os.path.isdir(repo_directory)
 
     repo_config_exists = os.path.isfile(
-        os.path.join(repo_directory, 'cookiecutter.json')
+        os.path.join(repo_directory, constants.PROMPT_CONFIG_FILE)
     )
     return repo_directory_exists and repo_config_exists
 
@@ -112,7 +112,7 @@ def determine_repo_dir(template, abbreviations, clone_to_dir, checkout,
         cleanup = False
 
     for repo_candidate in repository_candidates:
-        if repository_has_cookiecutter_json(repo_candidate):
+        if repository_has_cookiecutter_config(repo_candidate):
             return repo_candidate, cleanup
 
     raise RepositoryNotFound(

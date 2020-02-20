@@ -3,10 +3,11 @@ import logging
 import os
 
 from cookiecutter.config import get_user_config
-from cookiecutter.repository import determine_repo_dir
+
+from piecutter import constants
+from piecutter.repository import determine_repo_dir
 
 logger = logging.getLogger(__name__)
-PROMPT_CONFIG_FILE = 'cookiecutter_config.py'
 
 
 def piecutter(template, checkout=None, no_input=False, user_config_file=None,
@@ -34,7 +35,7 @@ def piecutter(template, checkout=None, no_input=False, user_config_file=None,
 
     template_name = os.path.basename(os.path.abspath(repo_dir))
 
-    prompt_config_file = os.path.join(repo_dir, PROMPT_CONFIG_FILE)
+    prompt_config_file = os.path.join(repo_dir, constants.PROMPT_CONFIG_FILE)
     logger.debug(f'prompt_config_file is {prompt_config_file}')
     spec = importlib.util.spec_from_file_location('cookiecutter_config', prompt_config_file)
     config_module = importlib.util.module_from_spec(spec)
