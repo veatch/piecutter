@@ -1,2 +1,2 @@
 def prompt_config():
-    pass
+    return [{'name': 'repo_name', 'prompt_type': 'text', 'default_value': 'asdf'}]
