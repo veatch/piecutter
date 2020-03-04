@@ -1,8 +1,11 @@
 import importlib
 import logging
 import os
+from collections import OrderedDict
 
 from cookiecutter.config import get_user_config
+from cookiecutter.generate import generate_files
+from cookiecutter.utils import rmtree
 
 from piecutter import constants
 from piecutter.prompt import prompt_user_for_config
@@ -11,13 +14,16 @@ from piecutter.repository import determine_repo_dir
 logger = logging.getLogger(__name__)
 
 
-def piecutter(template, checkout=None, no_input=False, user_config_file=None,
-        default_config=False):
+def piecutter(template, checkout=None, no_input=False, overwrite_if_exists=False,
+        output_dir='.', user_config_file=None, default_config=False):
     """
     :param template: A directory containing a project template directory,
         or a URL to a git repository.
     :param checkout: The branch, tag or commit ID to checkout after clone.
     :param no_input: Prompt the user at command line for manual configuration?
+    :param: overwrite_if_exists: Overwrite the contents of output directory
+        if it exists.
+    :param output_dir: Where to output the generated project dir.
     :param user_config_file: User configuration file path.
     :param default_config: Use default values rather than a config file.
     """
@@ -44,5 +50,21 @@ def piecutter(template, checkout=None, no_input=False, user_config_file=None,
     spec.loader.exec_module(config_module)
     prompt_config = config_module.prompt_config()
     # TODO add some validation here that each item has needed fields, a valid prompt_type, etc
-    res = prompt_user_for_config(prompt_config, no_input)
-    # TODO write to .cookiecutter.json file (or piecutter.json?) and call cookiecutter directly with that context
+
+    template_context = OrderedDict([])
+    template_context['cookiecutter'] = prompt_user_for_config(prompt_config, no_input)
+    # TODO add template dir or url to template_context['_template'] and dump
+    # template_context to replay_dir
+    # TODO write to .piecutter.json file (or something) before generating files
+    result = generate_files(
+        repo_dir=repo_dir,
+        context=template_context,
+        overwrite_if_exists=overwrite_if_exists,
+        output_dir=output_dir
+    )
+
+    # Cleanup (if required)
+    if cleanup:
+        rmtree(repo_dir)
+
+    return result

@@ -1,1 +1,1 @@
-PROMPT_CONFIG_FILE = 'cookiecutter_config.py'
+PROMPT_CONFIG_FILE = 'piecutter_config.py'
