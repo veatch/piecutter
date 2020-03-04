@@ -28,7 +28,9 @@ def remove_fake_project_dir(request):
 
 @pytest.mark.usefixtures('remove_fake_project_dir')
 def test_cli(cli_runner):
-    result = cli_runner('tests/fake-repo-pre/', '--no-input')
+    pwd = os.path.dirname(__file__)
+    template_dir = os.path.join(pwd, 'fake-repo-pre/')
+    result = cli_runner(template_dir, '--no-input')
     assert result.exit_code == 0
     #assert os.path.isdir('fake-project')
     #with open(os.path.join('fake-project', 'README.rst')) as f:
