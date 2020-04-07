@@ -46,6 +46,7 @@ cookiecutter. Piecutter only supports Python 3.5+.
 ## Future improvements
 
 Piecutter will support the following config options:
+
     - a `description` option to provide a more verbose description of a field.
     - a `clean_field_fn` option to specify a function that validates and cleans
       user input and returns the cleaned value.
