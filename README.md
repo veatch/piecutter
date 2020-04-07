@@ -47,12 +47,12 @@ cookiecutter. Piecutter only supports Python 3.5+.
 
 Piecutter will support the following config options:
 
-    - a `description` option to provide a more verbose description of a field.
-    - a `clean_field_fn` option to specify a function that validates and cleans
-      user input and returns the cleaned value.
-    - a `should_prompt_fn` option to specify a function that uses existing
-      context to determine whether to prompt for a field (for example, only
-      prompt for field B if the value for field A was X).
+- a `description` option to provide a more verbose description of a field.
+- a `clean_field_fn` option to specify a function that validates and cleans
+    user input and returns the cleaned value.
+- a `should_prompt_fn` option to specify a function that uses existing
+    context to determine whether to prompt for a field (for example, only
+    prompt for field B if the value for field A was X).
 
 Using these options would look something like this:
 
